@@ -1,0 +1,41 @@
+name: Deploy preview
+description: Builds and deploys a preview environment for a pull request.
+
+inputs:
+  title:
+    description: Pull request title, shown on the preview banner.
+    required: true
+  branch:
+    description: Branch to deploy.
+    required: true
+  token:
+    description: Preview service token.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.1'
+
+    - uses: actions/cache@v4
+      with:
+        path: vendor
+        key: composer-${{ hashFiles('composer.lock') }}
+
+    - name: Install dependencies
+      shell: bash
+      run: composer install --no-interaction
+
+    - name: Announce preview
+      shell: bash
+      run: |
+        echo "Building preview for: ${{ inputs.title }}"
+        echo "Branch: ${{ github.head_ref }}"
+        curl -sSf -H "Authorization: Bearer ${{ inputs.token }}" \
+          "https://preview.example.com/deploy?branch=${{ inputs.branch }}"

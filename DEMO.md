@@ -56,3 +56,8 @@ Trivy's license check reports.
   apt packages, apt lists left behind.
 - **deploy/k8s/deployment.yaml** (Trivy, Semgrep): mounts the Docker socket,
   `allowPrivilegeEscalation: true`, `:latest` image, no resource limits.
+- **.github/actions/preview/action.yml** (zizmor, 8 findings): a composite action
+  that interpolates the PR title, branch and a token straight into `run:`
+  (template injection), checks out the PR head, and pins actions to tags instead
+  of commits. No workflow calls it, so it never runs on GitHub; zizmor reads it
+  all the same.
