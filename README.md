@@ -5,8 +5,8 @@
 A small Laravel 10 hotel-booking app used to demonstrate Vuln Scanner. The code
 *looks* careful — form requests, policies, query bindings, allow-lists, HMAC
 signatures — but nearly every control has a subtle flaw. It also pins
-dependencies with published advisories, and ships an insecure Dockerfile,
-Kubernetes manifest and GitHub Actions workflow.
+dependencies with published advisories, and ships an insecure Dockerfile and
+Kubernetes manifest. There is deliberately no CI: nothing here runs on GitHub.
 
 What's planted, and which part of Vuln Scanner should find it, is in
 [DEMO.md](DEMO.md). Don't show DEMO.md before the scan.

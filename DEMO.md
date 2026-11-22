@@ -56,6 +56,3 @@ Trivy's license check reports.
   apt packages, apt lists left behind.
 - **deploy/k8s/deployment.yaml** (Trivy, Semgrep): mounts the Docker socket,
   `allowPrivilegeEscalation: true`, `:latest` image, no resource limits.
-- **.github/workflows/preview.yml** (zizmor): `pull_request_target` that checks
-  out the PR's code with secrets available, PR title and branch interpolated into
-  `run:` (template injection), actions pinned to tags, default token permissions.
