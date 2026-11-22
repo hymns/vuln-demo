@@ -1,0 +1,27 @@
+name: PR preview
+
+on:
+  pull_request_target:
+    types: [opened, synchronize]
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+
+      - name: Install dependencies
+        run: composer install --no-interaction
+
+      - name: Announce preview
+        run: |
+          echo "Building preview for: ${{ github.event.pull_request.title }}"
+          php artisan preview:deploy --branch="${{ github.head_ref }}"
+        env:
+          PREVIEW_TOKEN: ${{ secrets.PREVIEW_TOKEN }}

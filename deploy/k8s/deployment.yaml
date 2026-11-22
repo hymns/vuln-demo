@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stayeasy-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: stayeasy-web
+  template:
+    metadata:
+      labels:
+        app: stayeasy-web
+    spec:
+      containers:
+        - name: web
+          image: registry.example.com/stayeasy/web:latest
+          ports:
+            - containerPort: 80
+          envFrom:
+            - secretRef:
+                name: stayeasy-env
+          securityContext:
+            allowPrivilegeEscalation: true
+          volumeMounts:
+            - name: docker-sock
+              mountPath: /var/run/docker.sock
+      volumes:
+        - name: docker-sock
+          hostPath:
+            path: /var/run/docker.sock
